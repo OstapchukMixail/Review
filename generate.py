@@ -3,6 +3,7 @@ import argparse
 import os
 import sys
 import pickle
+import numpy as np
 
 
 parser = argparse.ArgumentParser()
@@ -25,27 +26,29 @@ def In_Generation_Out(args, dic2):
 
     # считываю длину текста и первое слово
     Count = args.Length
-    str = args.First_Word
+    words = args.First_Word
     if args.First_Word == '***':
         List = []
         for symbol in dic2:
             List.append(symbol)
-        str = random.choice(List)
+        words = random.choice(List)
     file = open(args.output_file, 'w')
 
     # генерирую текст
-    file.write(str)
+    file.write(words)
     file.write(' ')
-    while Count > 0 and str in dic2:
-        List = []
-        for keys, items in dic2[str].items():
-            for i in range(items):
-                List.append(keys)
-        tmp = random.choice(List)
+    while Count > 0 and words in dic2:
+        Listk = []
+        s = 0
+        for i in dic2[words].values():
+            s += int(i)
+        for i in dic2[words].values():
+            Listk.append(int(i) / s)
+        tmp = np.random.choice(list(dic2[words].keys()), p=Listk)
         file.write(tmp)
         file.write(' ')
         Count -= 1
-        str = tmp
+        words = tmp
     file.write('\n')
     file.close()
 
