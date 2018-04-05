@@ -13,6 +13,10 @@ parser.add_argument('--output', default=sys.stdout, dest='output_file', help='th
 parser.add_argument('--length', dest='Length', type=int, help='this is the length of text')
 
 
+def dd():
+    return defaultdict(int)
+
+
 def model_in(args):
 
     # с помощью модели воссоздаю словарь словарей
@@ -38,12 +42,10 @@ def In_Generation_Out(args, dic2):
     file.write(words)
     file.write(' ')
     while Count > 0 and words in dic2:
-        Listk = []
-        s = 0
-        for i in dic2[words].values():
-            s += int(i)
-        for i in dic2[words].values():
-            Listk.append(int(i) / s)
+        Listk = [
+            int(i) / sum(int(i) for i in dic2[words].values())
+            for i in dic2[words].values()
+        ]
         tmp = np.random.choice(list(dic2[words].keys()), p=Listk)
         file.write(tmp)
         file.write(' ')
