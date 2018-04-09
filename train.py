@@ -19,16 +19,16 @@ def creation(args):
     List = os.listdir(path=args.input_path)
     for files in List:
         with open(os.path.join(args.input_path, files), 'r') as file:    # соединяю путь к файлу и путь к его директории
-            flag_lw = False
+            NotFirstWord = False
             for line in file:
                 List = re.compile(u'[а-яa-zA-ZА-Я0-9-]+|[.,:;?!]+').findall(line)
                 for word in List:
                     if not args.lc:
                         word = word.lower()
-                    if flag_lw:
+                    if NotFirstWord:
                         dic[last_word][word] += 1
                     else:
-                        flag_lw = True
+                        NotFirstWord = True
                     last_word = word
     return dic
 
