@@ -42,8 +42,9 @@ def In_Generation_Out(args, dic2):
     file.write(words)
     file.write(' ')
     while Count > 0 and words in dic2:
+        Sum = sum(int(i) for i in dic2[words].values())
         Listk = [
-            int(i) / sum(int(i) for i in dic2[words].values())
+            int(i) / Sum
             for i in dic2[words].values()
         ]
         tmp = np.random.choice(list(dic2[words].keys()), p=Listk)
